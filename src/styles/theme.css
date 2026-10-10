@@ -1,21 +1,22 @@
-/* Tool Ninja docs theme — red-orange accent (#f03d13), warm dark surfaces.
-   Matches the marketing site (toolninja.framer.website) and the panels. */
+/* Sankarasanjeevi docs theme (2026-10-10) — the /Retro/* palette of
+   sankarasanjeevi.com: sky blues, ink-blue buttons, square corners, light and
+   dark. Replaced the retired Tool Ninja red-orange theme. */
 
 :root {
-	/* Accent scale (dark theme) */
-	--sl-color-accent-low: #431a0e;
-	--sl-color-accent: #f03d13;
-	--sl-color-accent-high: #ffc4b2;
-	--sl-color-text-accent: #ff7a55;
+	/* Accent scale (dark theme) — site SkyDeep / Ink, dark values */
+	--sl-color-accent-low: #162c3a;
+	--sl-color-accent: #87ceeb;
+	--sl-color-accent-high: #e2f1fa;
+	--sl-color-text-accent: #87ceeb;
 
-	/* Warm neutral surfaces */
-	--sl-color-black: #0d0b0a;
-	--sl-color-gray-6: #161311;
-	--sl-color-gray-5: #1e1a16;
-	--sl-color-gray-4: #2a2521;
-	--sl-color-gray-3: #4a433b;
-	--sl-color-gray-2: #b8b0a6;
-	--sl-color-gray-1: #f3eee8;
+	/* Navy surfaces — site /Retro/Background, Card, Sage, Panel (dark) */
+	--sl-color-black: #0a1a26;
+	--sl-color-gray-6: #0e2230;
+	--sl-color-gray-5: #162c3a;
+	--sl-color-gray-4: #22404f;
+	--sl-color-gray-3: #4d6f84;
+	--sl-color-gray-2: #a9cde2;
+	--sl-color-gray-1: #e2f1fa;
 	--sl-color-white: #ffffff;
 }
 
@@ -23,43 +24,43 @@
    Brand alignment overrides.
 
    Starlight paints its primary button and the active sidebar item with
-   --sl-color-text-accent, which has to stay a LIGHT orange (#ff7a55) to keep
-   body links readable on a near-black page. Used as a fill that reads as a
-   washed-out salmon and looks nothing like the marketing site, so the fills are
-   pinned to the real brand accent (#f03d13) independently of the link colour.
+   --sl-color-text-accent. The fills are pinned to the site's button colour
+   (/Retro/Ink) independently of the link colour, so buttons match the site.
    --------------------------------------------------------------------------- */
 
-/* Hero primary button: brand fill, white text (matches "Get Subtext" on the site).
+/* Hero primary button: the site's Ink fill.
    ⚠ The class is `.sl-link-button.primary` in this Starlight version, NOT
    `.action.primary` — that older selector silently matches nothing. Both are
    listed so a Starlight upgrade cannot quietly revert this. */
 .sl-link-button.primary,
 .action.primary {
-	background: #f03d13;
-	color: #ffffff;
-	border-color: #f03d13;
+	background: #c4e4f5;
+	color: #000000;
+	border-color: #c4e4f5;
+	border-radius: 0;
 }
 .sl-link-button.primary:hover,
 .action.primary:hover {
-	background: #ff5a34;
-	border-color: #ff5a34;
-	color: #ffffff;
+	background: #87ceeb;
+	border-color: #87ceeb;
+	color: #000000;
+}
+.sl-link-button {
+	border-radius: 0;
 }
 
-/* Site title (top-left wordmark): brand accent, not the lighter link orange.
-   Passes AA at this size because the wordmark is large and bold. */
+/* Site title (top-left wordmark): the accent, bold. */
 .site-title, a.site-title {
-	color: #f03d13;
+	color: var(--sl-color-text-accent);
 	font-weight: 700;
 }
 
-/* Active sidebar item: a low-alpha accent wash with accent text, not a solid
-   slab. Mirrors the panels' own rule that dimmed accent = active state. */
+/* Active sidebar item: a low-alpha accent wash with accent text, square like the site. */
 :root[data-theme='dark'] .sidebar-content a[aria-current='page'],
 :root[data-theme='dark'] nav a[aria-current='page'] {
-	background: rgba(240, 61, 19, 0.14);
-	color: #ff7a55;
-	border-radius: 4px;
+	background: rgba(135, 206, 235, 0.14);
+	color: #87ceeb;
+	border-radius: 0;
 	font-weight: 600;
 }
 
@@ -68,7 +69,7 @@
 starlight-theme-select label {
 	background: var(--sl-color-gray-6);
 	border: 1px solid var(--sl-color-gray-4);
-	border-radius: 6px;
+	border-radius: 0;
 	padding: 2px 6px;
 	color: var(--sl-color-gray-1);
 }
@@ -77,19 +78,38 @@ starlight-theme-select label:hover {
 	color: var(--sl-color-accent-high);
 }
 
-/* Light theme overrides */
+/* Light theme — site /Retro/* light values */
 :root[data-theme='light'] {
-	--sl-color-accent-low: #ffd9cc;
-	--sl-color-accent: #e0350d;
-	--sl-color-accent-high: #6e1c08;
-	--sl-color-text-accent: #d22e08;
+	--sl-color-accent-low: #d0e9f8;
+	--sl-color-accent: #1e88c4;
+	--sl-color-accent-high: #0d476e;
+	--sl-color-text-accent: #1a6e9e;
 
-	--sl-color-black: #ffffff;
-	--sl-color-gray-6: #f6f2ee;
-	--sl-color-gray-5: #efe9e3;
-	--sl-color-gray-4: #d8cfc5;
-	--sl-color-gray-3: #a89e92;
-	--sl-color-gray-2: #5a534b;
-	--sl-color-gray-1: #2a2521;
-	--sl-color-white: #161311;
+	--sl-color-black: #f1f9fe;
+	--sl-color-gray-6: #e2f1fa;
+	--sl-color-gray-5: #d0e9f8;
+	--sl-color-gray-4: #badef3;
+	--sl-color-gray-3: #628ca8;
+	--sl-color-gray-2: #2a5f84;
+	--sl-color-gray-1: #0d476e;
+	--sl-color-white: #0a2d46;
+}
+:root[data-theme='light'] .sl-link-button.primary,
+:root[data-theme='light'] .action.primary {
+	background: #0d476e;
+	color: #ffffff;
+	border-color: #0d476e;
+}
+:root[data-theme='light'] .sl-link-button.primary:hover,
+:root[data-theme='light'] .action.primary:hover {
+	background: #1e88c4;
+	border-color: #1e88c4;
+	color: #ffffff;
+}
+:root[data-theme='light'] .sidebar-content a[aria-current='page'],
+:root[data-theme='light'] nav a[aria-current='page'] {
+	background: rgba(30, 136, 196, 0.12);
+	color: #0d476e;
+	border-radius: 0;
+	font-weight: 600;
 }

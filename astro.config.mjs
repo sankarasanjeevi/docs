@@ -4,43 +4,46 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-	// GitHub Pages project site. When a custom domain (docs.toolninja.com) is
-	// added, change `site` to the custom domain and remove `base`.
+	// GitHub Pages project site. Repo renamed toolninja-docs -> docs on 2026-10-10
+	// (Tool Ninja retired). The old address is kept alive by a separate redirect-only
+	// repo named toolninja-docs. Keys below are base-relative; targets carry the base.
 	site: 'https://sankarasanjeevi.github.io',
-	base: '/toolninja-docs',
+	base: '/docs',
 	// CutCap was renamed Subtext (2026-07). Keep every old /cutcap/ URL alive —
-	// they are linked from the Gumroad page, the marketing site, and shipped docs.
+	// they are linked from the Gumroad page and shipped docs.
 	redirects: {
-		'/cutcap': '/toolninja-docs/subtext/overview/',
-		'/cutcap/overview': '/toolninja-docs/subtext/overview/',
-		'/cutcap/importing': '/toolninja-docs/subtext/importing/',
-		'/cutcap/editing': '/toolninja-docs/subtext/editing/',
-		'/cutcap/cleanup': '/toolninja-docs/subtext/cleanup/',
-		'/cutcap/review-and-search': '/toolninja-docs/subtext/review-and-search/',
-		'/cutcap/playback-and-sync': '/toolninja-docs/subtext/playback-and-sync/',
-		'/cutcap/output': '/toolninja-docs/subtext/output/',
-		'/cutcap/settings': '/toolninja-docs/subtext/settings/',
+		'/cutcap': '/docs/subtext/overview/',
+		'/cutcap/overview': '/docs/subtext/overview/',
+		'/cutcap/importing': '/docs/subtext/importing/',
+		'/cutcap/editing': '/docs/subtext/editing/',
+		'/cutcap/cleanup': '/docs/subtext/cleanup/',
+		'/cutcap/review-and-search': '/docs/subtext/review-and-search/',
+		'/cutcap/playback-and-sync': '/docs/subtext/playback-and-sync/',
+		'/cutcap/output': '/docs/subtext/output/',
+		'/cutcap/settings': '/docs/subtext/settings/',
 		// MOGRT push is not part of the shipping product — send it to the export page.
-		'/cutcap/mogrts': '/toolninja-docs/subtext/output/',
+		'/cutcap/mogrts': '/docs/subtext/output/',
+		// "What is Tool Ninja?" became "About" with the rebrand.
+		'/getting-started/what-is-tool-ninja': '/docs/getting-started/about/',
 	},
 	integrations: [
 		starlight({
-			title: 'Tool Ninja',
+			title: 'Sankarasanjeevi Docs',
 			description:
-				'Documentation for Tool Ninja — focused Premiere Pro and After Effects extensions that live right in your workflow.',
-			tagline: 'Docs for Tool Ninja extensions',
+				"Documentation for Sankarasanjeevi's Premiere Pro and After Effects extensions — focused tools that live right in your workflow.",
+			tagline: 'Docs for my Premiere Pro and After Effects extensions',
 			customCss: ['./src/styles/theme.css'],
 			social: [
 				{ icon: 'external', label: 'Tools', href: 'https://sankarasanjeevi.com/tools' },
 			],
 			editLink: {
-				baseUrl: 'https://github.com/sankarasanjeevi/toolninja-docs/edit/main/',
+				baseUrl: 'https://github.com/sankarasanjeevi/docs/edit/main/',
 			},
 			sidebar: [
 				{
 					label: 'Getting Started',
 					items: [
-						{ label: 'What is Tool Ninja?', slug: 'getting-started/what-is-tool-ninja' },
+						{ label: 'About these tools', slug: 'getting-started/about' },
 						{ label: 'Installing an extension', slug: 'getting-started/installation' },
 						{ label: 'Activating your license', slug: 'getting-started/licensing' },
 					],

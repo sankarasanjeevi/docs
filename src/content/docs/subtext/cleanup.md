@@ -23,4 +23,4 @@ All cleanup actions are undoable with **Ctrl+Z**, so a whole-file change is neve
 
 ## Next steps
 
-- [Review & search](/toolninja-docs/subtext/review-and-search/)
+- [Review & search](/docs/subtext/review-and-search/)

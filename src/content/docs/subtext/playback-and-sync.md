@@ -16,4 +16,4 @@ Turn on **Sync** to highlight the caption **under the playhead** as the sequence
 
 ## Next steps
 
-- [Export & push to Premiere](/toolninja-docs/subtext/output/)
+- [Export & push to Premiere](/docs/subtext/output/)

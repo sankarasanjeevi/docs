@@ -25,4 +25,4 @@ Open Find & Replace with the **magnifier** button or **Ctrl+F**.
 
 ## Next steps
 
-- [Playback & sync](/toolninja-docs/subtext/playback-and-sync/)
+- [Playback & sync](/docs/subtext/playback-and-sync/)

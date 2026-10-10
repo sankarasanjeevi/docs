@@ -23,5 +23,5 @@ Everything runs **locally** inside Premiere. Subtext edits caption files on your
 
 ## Next steps
 
-- [Keyboard shortcuts](/toolninja-docs/reference/keyboard-shortcuts/)
-- [FAQ](/toolninja-docs/reference/faq/)
+- [Keyboard shortcuts](/docs/reference/keyboard-shortcuts/)
+- [FAQ](/docs/reference/faq/)

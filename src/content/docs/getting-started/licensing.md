@@ -1,9 +1,9 @@
 ---
 title: Activating your license
-description: How Tool Ninja licensing works — activation, the two-computer limit, offline use, and moving to a new machine.
+description: How licensing works — activation, the two-computer limit, offline use, and moving to a new machine.
 ---
 
-Tool Ninja extensions use a simple license activation. You activate once, and the tool keeps working offline after that.
+Each extension uses a simple license activation. You activate once, and the tool keeps working offline after that.
 
 ## Activate
 
@@ -19,7 +19,7 @@ Tool Ninja extensions use a simple license activation. You activate once, and th
 
 ## Moving to a new computer
 
-Replaced a machine, or need to move your license? If you hit the two-computer limit, email [toolninjaa@gmail.com](mailto:toolninjaa@gmail.com) and we'll reset your activations so you can activate on your new machine.
+Replaced a machine, or need to move your license? If you hit the two-computer limit, email [sankarraknas7272@gmail.com](mailto:sankarraknas7272@gmail.com) and I'll reset your activations so you can activate on your new machine.
 
 ## Troubleshooting
 

@@ -28,4 +28,4 @@ A CSV with **frame timecodes** needs to know your project's frame rate to conver
 
 ## Next steps
 
-- [Editing captions](/toolninja-docs/subtext/editing/)
+- [Editing captions](/docs/subtext/editing/)

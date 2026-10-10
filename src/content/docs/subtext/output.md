@@ -1,9 +1,9 @@
 ---
 title: Export & push to Premiere
-description: Export an edited SRT to disk, or push captions back onto your Premiere timeline as a caption track.
+description: Export an edited SRT to disk, or push captions back into your Premiere project, ready to drop on your timeline.
 ---
 
-When your captions are ready, Subtext gets them back into your edit — to disk as an SRT, or straight onto the timeline.
+When your captions are ready, Subtext gets them back into your edit — to disk as an SRT, or straight into your Premiere project.
 
 ## History
 
@@ -17,7 +17,7 @@ On launch, Subtext can **reopen your previous session**, **start fresh**, or **a
 
 ## Push to Premiere
 
-**Push to Premiere** places the captions on a **new caption track** on your sequence, and files a **versioned SRT copy** — named after your sequence, e.g. `Sequence_v2.srt` — in a **Subtext** bin in the Project panel.
+**Push to Premiere** files a **versioned SRT copy** — named after your sequence, e.g. `Sequence_v2.srt` — in a **Subtext** bin in the Project panel and selects it for you. Drag it onto your timeline to place the captions.
 
 ### Push scope
 
@@ -32,4 +32,4 @@ The SRT is saved to a **Subtext** folder beside your project file by default. Yo
 
 ## Next steps
 
-- [Appearance & settings](/toolninja-docs/subtext/settings/)
+- [Appearance & settings](/docs/subtext/settings/)
