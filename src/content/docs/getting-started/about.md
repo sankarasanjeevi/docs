@@ -7,7 +7,7 @@ I'm Sankarasanjeevi, a video editor and motion designer, and I build **focused P
 
 ## The tools
 
-- **Subtext** (formerly CutCap) — a caption editor for Premiere Pro. Import an SRT, VTT, or CSV, refine the cut and the wording word-by-word right in the panel, then push the finished captions back into your Premiere project, ready to drop on your timeline. [Read the Subtext docs](/docs/subtext/overview/).
+- **Subtext** — a caption editor for Premiere Pro. Import an SRT, VTT, or CSV, refine the cut and the wording word-by-word right in the panel, then push the finished captions back into your Premiere project, ready to drop on your timeline. [Read the Subtext docs](/docs/subtext/overview/).
 
 More tools are on the way — their guides will appear in this documentation as they ship.
 

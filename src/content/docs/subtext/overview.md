@@ -7,10 +7,6 @@ description: What Subtext does and how the caption editing workflow fits togethe
 
 Subtext fixes that. Import any **SRT, VTT, or CSV**, refine the cut and the wording right in the panel, and push the finished captions back into your Premiere project — without ever leaving Premiere.
 
-:::note[Subtext was called CutCap]
-Same tool, same developer — only the name changed. Your license key still works, and installing Subtext keeps your saved sessions and settings.
-:::
-
 :::note[Subtext does not transcribe]
 Subtext **edits caption files you already have** — from Premiere's speech-to-text, a transcription service, or anywhere else that gives you an SRT. It doesn't generate captions from audio; it makes fixing them fast.
 :::

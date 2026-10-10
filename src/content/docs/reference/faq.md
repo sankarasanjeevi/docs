@@ -7,12 +7,6 @@ description: Frequently asked questions about Subtext and the other extensions.
 
 No — Subtext **edits caption files you already have** (from Premiere's speech-to-text, a transcription service, or anywhere else that gives you an SRT). It makes fixing them fast.
 
-## Wasn't this called CutCap?
-
-Yes. **Subtext is CutCap, renamed** — same tool, same developer, same license key. Installing
-Subtext over CutCap keeps your saved sessions and settings; the panel just appears as **Subtext**
-under Window → Extensions.
-
 ## Does it work on Mac?
 
 **Yes** — Subtext runs on both Windows and macOS. The other extensions are Windows-only for
