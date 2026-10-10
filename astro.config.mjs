@@ -31,7 +31,7 @@ export default defineConfig({
 			tagline: 'Docs for Tool Ninja extensions',
 			customCss: ['./src/styles/theme.css'],
 			social: [
-				{ icon: 'external', label: 'Tool Ninja', href: 'https://toolninja.framer.website/' },
+				{ icon: 'external', label: 'Tools', href: 'https://sankarasanjeevi.com/tools' },
 			],
 			editLink: {
 				baseUrl: 'https://github.com/sankarasanjeevi/toolninja-docs/edit/main/',
