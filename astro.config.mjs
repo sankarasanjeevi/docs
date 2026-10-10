@@ -28,7 +28,7 @@ export default defineConfig({
 	},
 	integrations: [
 		starlight({
-			title: 'Sankarasanjeevi Docs',
+			title: 'Sankarasanjeevi',
 			description:
 				"Documentation for Sankarasanjeevi's Premiere Pro and After Effects extensions — focused tools that live right in your workflow.",
 			tagline: 'Docs for my Premiere Pro and After Effects extensions',
