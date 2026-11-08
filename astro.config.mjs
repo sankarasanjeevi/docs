@@ -33,6 +33,19 @@ export default defineConfig({
 				"Documentation for Sankarasanjeevi's Premiere Pro and After Effects extensions — focused tools that live right in your workflow.",
 			tagline: 'Docs for my Premiere Pro and After Effects extensions',
 			customCss: ['./src/styles/theme.css'],
+			components: { Header: './src/components/Header.astro' },
+			expressiveCode: { styleOverrides: { borderRadius: '14px' } },
+			head: [
+				{ tag: 'link', attrs: { rel: 'preconnect', href: 'https://fonts.googleapis.com' } },
+				{ tag: 'link', attrs: { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' } },
+				{
+					tag: 'link',
+					attrs: {
+						rel: 'stylesheet',
+						href: 'https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=IBM+Plex+Mono:wght@400;500&display=swap',
+					},
+				},
+			],
 			social: [
 				{ icon: 'external', label: 'Tools', href: 'https://sankarasanjeevi.com/tools' },
 			],

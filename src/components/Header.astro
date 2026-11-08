@@ -1,0 +1,44 @@
+---
+// Floating pill header, styled after the home page's RE_Header. The pill is
+// painted by src/styles/theme.css (.rs-pill); Starlight's own Search is reused
+// as-is. The theme toggle writes the same `starlight-theme` localStorage key
+// and `data-theme` attribute as Starlight's ThemeSelect, so ThemeProvider keeps
+// working on the next page load.
+import Search from '@astrojs/starlight/components/Search.astro';
+
+const links = [
+	{ label: 'Work', href: 'https://sankarasanjeevi.com/#work' },
+	{ label: 'How it works', href: 'https://sankarasanjeevi.com/#how' },
+	{ label: 'Pricing', href: 'https://sankarasanjeevi.com/#pricing' },
+	{ label: 'About', href: 'https://sankarasanjeevi.com/#about' },
+	{ label: 'FAQ', href: 'https://sankarasanjeevi.com/#faq' },
+	{ label: 'Tools', href: 'https://sankarasanjeevi.com/tools' },
+];
+---
+
+<div class="rs-pill">
+	<a class="rs-name" href="https://sankarasanjeevi.com/">Sankarasanjeevi</a>
+	<nav class="rs-nav" aria-label="Main">
+		{links.map((l) => <a href={l.href}>{l.label}</a>)}
+	</nav>
+	<div class="rs-actions print:hidden">
+		<div class="rs-search"><Search /></div>
+		<button type="button" class="rs-theme" data-rs-theme aria-label="Toggle light and dark theme">
+			<svg class="rs-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+			<svg class="rs-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+		</button>
+		<a class="rs-apply" href="https://sankarasanjeevi.com/#apply">Apply</a>
+	</div>
+</div>
+
+<script>
+	const btn = document.querySelector<HTMLButtonElement>('[data-rs-theme]');
+	btn?.addEventListener('click', () => {
+		const root = document.documentElement;
+		const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+		root.dataset.theme = next;
+		try {
+			localStorage.setItem('starlight-theme', next);
+		} catch {}
+	});
+</script>

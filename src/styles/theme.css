@@ -1,115 +1,883 @@
-/* Sankarasanjeevi docs theme (2026-10-10) — the /Retro/* palette of
-   sankarasanjeevi.com: sky blues, ink-blue buttons, square corners, light and
-   dark. Replaced the retired Tool Ninja red-orange theme. */
+/* Sankarasanjeevi docs theme (2026-11-08) — restyled to match the sankarasanjeevi.com
+   home page: day sky / night sky, white (or night) rounded cards, Bricolage Grotesque
+   headings, Archivo body, IBM Plex Mono labels, orange pill buttons.
 
+   Fonts are loaded by the `head` entry in astro.config.mjs (display=swap).
+   Look only: no content or layout logic lives here.
+
+   Starlight scopes its colours as `:root` (dark, the default) and
+   `:root[data-theme='light']`; this file follows the same split. All of Starlight's own
+   rules sit in `@layer starlight.*`, so these unlayered rules win without !important. */
+
+/* ---------------------------------------------------------------------------
+   Tokens
+   --------------------------------------------------------------------------- */
+:root,
+::backdrop {
+	--rs-ink: #02070a;
+	--rs-white: #fdfeff;
+	--rs-sky: #0297de;
+	--rs-sun: #fc734d;
+	--rs-display: 'Bricolage Grotesque', 'Arial Black', Arial, sans-serif;
+	--rs-mono: 'IBM Plex Mono', Consolas, 'Courier New', monospace;
+	--rs-ease: cubic-bezier(0.23, 1, 0.32, 1);
+	--rs-radius: 22px;
+
+	--sl-font: 'Archivo', 'Segoe UI', Arial, sans-serif;
+	--sl-font-mono: 'IBM Plex Mono', Consolas, 'Courier New', monospace;
+
+	/* Dark = the night sky. gray-1 is the strongest text, gray-6 the code/inset surface. */
+	--sl-color-white: #fdfeff;
+	--sl-color-gray-1: #e8eef6;
+	--sl-color-gray-2: #b4c0d0;
+	--sl-color-gray-3: #8c9bb0;
+	--sl-color-gray-4: #3a4557;
+	--sl-color-gray-5: #1f2838;
+	--sl-color-gray-6: #0e1522;
+	--sl-color-gray-7: #0e1522;
+	--sl-color-black: #0b1830;
+
+	--sl-color-accent-low: #0f2c45;
+	--sl-color-accent: #0297de;
+	--sl-color-accent-high: #9ed8ff;
+	--sl-color-text-accent: #7ccbff;
+	--sl-color-text-invert: #02070a;
+	--sl-color-bg: #0b1830;
+	--sl-color-bg-nav: #141b27;
+	--sl-color-bg-sidebar: #141b27;
+	--sl-color-bg-inline-code: #0e1522;
+	--sl-color-hairline-light: #1f2838;
+	--sl-color-hairline: #1f2838;
+	--sl-color-hairline-shade: #1f2838;
+	--sl-color-backdrop-overlay: rgba(2, 7, 10, 0.66);
+
+	--sl-color-blue-low: #0f2740;
+	--sl-color-blue: #0297de;
+	--sl-color-blue-high: #9ed8ff;
+
+	--rs-card: #141b27;
+	--rs-card-inner: #19212f;
+	--rs-line: #1f2838;
+	--rs-wash: rgba(2, 151, 222, 0.18);
+	--rs-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+	--rs-shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.5);
+	/* pill values measured on the live home header (.re-pill), 2026-11-08 */
+	--rs-pill-bg: rgba(13, 20, 32, 0.5);
+	--rs-pill-bg-solid: rgba(13, 20, 32, 0.94);
+	--rs-pill-ring: rgba(255, 255, 255, 0.18);
+	--rs-pill-drop: rgba(0, 0, 0, 0.3);
+	--rs-chip: rgba(255, 255, 255, 0.09);
+	--rs-fg: #fdfeff;
+	--rs-fg-soft: #b4c0d0;
+	--rs-hover-text: #7ccbff;
+	--rs-btn-hover-bg: #fdfeff;
+	--rs-btn-hover-fg: #02070a;
+	--rs-ghost-bg: rgba(255, 255, 255, 0.08);
+	--rs-ghost-ring: rgba(255, 255, 255, 0.3);
+	--rs-menu-bg: #fdfeff;
+	--rs-menu-fg: #02070a;
+	/* night sky: gradient + a soft glow; stars are layered on top in body::after */
+	/* the live home night sky (.re-sky.night), measured 2026-11-08 */
+	--rs-sky-bg: radial-gradient(70% 35% at 50% 12%, rgba(40, 72, 130, 0.4), transparent 60%),
+		linear-gradient(180deg, #0b1830 0%, #071122 50%, #02070a 100%);
+	--rs-sky-fallback: #0b1830;
+	--rs-stars: 1;
+}
+
+:root[data-theme='light'],
+[data-theme='light'] ::backdrop {
+	/* Light = the day sky. white is Midnight (strongest text), black is the white card. */
+	--sl-color-white: #02070a;
+	--sl-color-gray-1: #131f2b;
+	--sl-color-gray-2: #33404f;
+	--sl-color-gray-3: #4a5b6e;
+	--sl-color-gray-4: #8196ab;
+	--sl-color-gray-5: #cfe1ee;
+	--sl-color-gray-6: #eaf3fa;
+	--sl-color-gray-7: #f4f9fd;
+	--sl-color-black: #ffffff;
+
+	--sl-color-accent-low: #dcf0fc;
+	--sl-color-accent: #0297de;
+	--sl-color-accent-high: #01527f;
+	/* #0277b6 on white = 4.9:1 */
+	--sl-color-text-accent: #0277b6;
+	--sl-color-text-invert: #ffffff;
+	--sl-color-bg: #5db5ed;
+	--sl-color-bg-nav: #ffffff;
+	--sl-color-bg-sidebar: #ffffff;
+	--sl-color-bg-inline-code: #eaf3fa;
+	--sl-color-hairline-light: #dcebf5;
+	--sl-color-hairline: #dcebf5;
+	--sl-color-hairline-shade: #dcebf5;
+	--sl-color-backdrop-overlay: rgba(2, 7, 10, 0.45);
+
+	--sl-color-blue-low: #e3f3fc;
+	--sl-color-blue: #0297de;
+	--sl-color-blue-high: #01527f;
+
+	--rs-card: #ffffff;
+	--rs-card-inner: #f6fafd;
+	--rs-line: #cfe1ee;
+	--rs-wash: rgba(2, 151, 222, 0.13);
+	--rs-shadow: 0 10px 30px rgba(2, 7, 10, 0.09);
+	--rs-shadow-hover: 0 16px 40px rgba(2, 7, 10, 0.16);
+	--rs-pill-bg: rgba(255, 255, 255, 0.38);
+	--rs-pill-bg-solid: rgba(226, 241, 252, 0.94);
+	--rs-pill-ring: rgba(255, 255, 255, 0.6);
+	--rs-pill-drop: rgba(14, 23, 38, 0.08);
+	--rs-chip: rgba(255, 255, 255, 0.7);
+	--rs-fg: #02070a;
+	--rs-fg-soft: #33404f;
+	--rs-hover-text: #0277b6;
+	--rs-btn-hover-bg: #02070a;
+	--rs-btn-hover-fg: #fdfeff;
+	--rs-ghost-bg: rgba(255, 255, 255, 0.55);
+	--rs-ghost-ring: rgba(14, 23, 38, 0.25);
+	--rs-menu-bg: #02070a;
+	--rs-menu-fg: #fdfeff;
+	--rs-sky-bg: linear-gradient(180deg, #5db5ed 0%, #8ccbf3 55%, #bfe3f8 100%);
+	--rs-sky-fallback: #5db5ed;
+	--rs-stars: 0;
+}
+
+/* Taller floating header: the pill is 3.25rem, plus 14px of air above it. */
 :root {
-	/* Accent scale (dark theme) — site SkyDeep / Ink, dark values */
-	--sl-color-accent-low: #162c3a;
-	--sl-color-accent: #87ceeb;
-	--sl-color-accent-high: #e2f1fa;
-	--sl-color-text-accent: #87ceeb;
-
-	/* Navy surfaces — site /Retro/Background, Card, Sage, Panel (dark) */
-	--sl-color-black: #0a1a26;
-	--sl-color-gray-6: #0e2230;
-	--sl-color-gray-5: #162c3a;
-	--sl-color-gray-4: #22404f;
-	--sl-color-gray-3: #4d6f84;
-	--sl-color-gray-2: #a9cde2;
-	--sl-color-gray-1: #e2f1fa;
-	--sl-color-white: #ffffff;
+	--sl-nav-height: 4.5rem;
+}
+@media (min-width: 50em) {
+	:root {
+		--sl-nav-height: 5rem;
+		--sl-sidebar-width: 17.5rem;
+		--sl-content-width: 46rem;
+	}
 }
 
 /* ---------------------------------------------------------------------------
-   Brand alignment overrides.
-
-   Starlight paints its primary button and the active sidebar item with
-   --sl-color-text-accent. The fills are pinned to the site's button colour
-   (/Retro/Ink) independently of the link colour, so buttons match the site.
+   The sky: fixed layers behind everything (no animation, no canvas).
+   Body paint is cleared so the layers are not covered.
    --------------------------------------------------------------------------- */
+html {
+	background: var(--rs-sky-fallback);
+}
+body {
+	background: transparent;
+}
+body::before {
+	content: '';
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background: var(--rs-sky-bg);
+}
+/* Small static stars (night only): three tile sizes so the repeat does not show. */
+body::after {
+	content: '';
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	opacity: var(--rs-stars);
+	background-image:
+		radial-gradient(1.4px 1.4px at 38px 52px, #fff 95%, transparent),
+		radial-gradient(1px 1px at 190px 120px, rgba(255, 255, 255, 0.85) 95%, transparent),
+		radial-gradient(1.2px 1.2px at 112px 250px, rgba(255, 255, 255, 0.9) 95%, transparent),
+		radial-gradient(1px 1px at 280px 210px, rgba(255, 255, 255, 0.7) 95%, transparent),
+		radial-gradient(1.2px 1.2px at 60px 90px, rgba(200, 225, 255, 0.9) 95%, transparent),
+		radial-gradient(1px 1px at 150px 30px, rgba(255, 255, 255, 0.75) 95%, transparent),
+		radial-gradient(1.6px 1.6px at 100px 140px, #fff 95%, transparent),
+		radial-gradient(1px 1px at 20px 180px, rgba(255, 255, 255, 0.7) 95%, transparent),
+		radial-gradient(1.2px 1.2px at 200px 60px, rgba(210, 230, 255, 0.85) 95%, transparent);
+	background-size:
+		310px 310px,
+		310px 310px,
+		310px 310px,
+		310px 310px,
+		230px 230px,
+		230px 230px,
+		230px 230px,
+		170px 170px,
+		170px 170px;
+	-webkit-mask-image: linear-gradient(#000 0%, #000 55%, transparent 100%);
+	mask-image: linear-gradient(#000 0%, #000 55%, transparent 100%);
+}
 
-/* Hero primary button: the site's Ink fill.
-   ⚠ The class is `.sl-link-button.primary` in this Starlight version, NOT
-   `.action.primary` — that older selector silently matches nothing. Both are
-   listed so a Starlight upgrade cannot quietly revert this. */
+/* ---------------------------------------------------------------------------
+   Type
+   --------------------------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--rs-display);
+}
+h1#_top,
+.sl-markdown-content h1 {
+	font-weight: 780;
+	letter-spacing: -0.03em;
+	line-height: 1.04;
+}
+.sl-markdown-content h2 {
+	font-weight: 750;
+	letter-spacing: -0.025em;
+	line-height: 1.1;
+}
+.sl-markdown-content h3 {
+	font-weight: 700;
+	letter-spacing: -0.015em;
+}
+.sl-markdown-content :is(h4, h5, h6) {
+	font-weight: 700;
+	letter-spacing: -0.01em;
+}
+
+code,
+kbd,
+samp,
+pre {
+	font-family: var(--rs-mono);
+}
+:not(pre) > code {
+	border-radius: 7px;
+	font-size: 0.88em;
+}
+kbd {
+	border-radius: 7px;
+	border: 1px solid var(--rs-line);
+	background: var(--sl-color-gray-6);
+	color: var(--sl-color-white);
+	padding: 0.1em 0.45em;
+	font-size: 0.85em;
+}
+
+/* ---------------------------------------------------------------------------
+   Header: floating pill (markup in src/components/Header.astro)
+   --------------------------------------------------------------------------- */
+header.header {
+	background: transparent;
+	border: 0;
+	padding: 14px 16px 0;
+}
+:root[data-has-sidebar] header.header {
+	/* leave room for Starlight's round menu button on narrow screens */
+	padding-inline-end: calc(16px + 36px + 8px);
+}
+@media (min-width: 50em) {
+	:root[data-has-sidebar] header.header {
+		padding-inline-end: 16px;
+	}
+}
+
+.rs-pill {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	height: 3.25rem;
+	padding: 6px 6px 6px 20px;
+	border-radius: 999px;
+	color: var(--rs-fg);
+	background: var(--rs-pill-bg-solid);
+	box-shadow:
+		inset 0 0 0 1px var(--rs-pill-ring),
+		0 8px 30px var(--rs-pill-drop);
+}
+@media (min-width: 50em) {
+	/* home's pill: 58px tall, 8px 8px 8px 22px */
+	.rs-pill {
+		height: 58px;
+		padding: 8px 8px 8px 22px;
+	}
+}
+@media (hover: hover) and (pointer: fine) {
+	.rs-pill {
+		background: var(--rs-pill-bg);
+		-webkit-backdrop-filter: blur(14px) saturate(1.3);
+		backdrop-filter: blur(14px) saturate(1.3);
+	}
+}
+.rs-name {
+	flex: 0 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font: 750 19px/1.2 var(--rs-display);
+	letter-spacing: -0.02em;
+	color: var(--rs-fg);
+	text-decoration: none;
+}
+.rs-nav {
+	display: none;
+	margin-inline: auto;
+	gap: 26px;
+}
+.rs-nav a {
+	font: 500 15px/1 'Archivo', sans-serif;
+	color: var(--rs-fg);
+	text-decoration: none;
+	white-space: nowrap;
+	transition: color 200ms var(--rs-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+	.rs-nav a:hover {
+		color: var(--rs-hover-text);
+	}
+}
+.rs-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-inline-start: auto;
+	flex: none;
+}
+@media (min-width: 61.25em) {
+	.rs-nav {
+		display: flex;
+	}
+	.rs-actions {
+		margin-inline-start: 0;
+	}
+}
+
+/* Starlight's Search button, reshaped into a chip */
+.rs-search button[data-open-modal] {
+	height: 40px;
+	width: 40px;
+	max-width: none;
+	padding: 0;
+	justify-content: center;
+	border: 0;
+	border-radius: 999px;
+	background: var(--rs-chip);
+	color: var(--rs-fg);
+	font: 500 13px/1 var(--rs-mono);
+	transition:
+		background-color 200ms var(--rs-ease),
+		color 200ms var(--rs-ease),
+		transform 160ms var(--rs-ease);
+}
+.rs-search button[data-open-modal] > span,
+.rs-search button[data-open-modal] > kbd {
+	display: none !important;
+}
+.rs-search button[data-open-modal]:active {
+	transform: scale(0.97);
+}
+@media (min-width: 61.25em) {
+	.rs-search button[data-open-modal] {
+		width: auto;
+		padding: 0 14px;
+		gap: 10px;
+		justify-content: flex-start;
+		color: var(--rs-fg-soft);
+	}
+	.rs-search button[data-open-modal] > span {
+		display: inline !important;
+	}
+}
+@media (hover: hover) and (pointer: fine) {
+	.rs-search button[data-open-modal]:hover {
+		color: var(--rs-fg);
+		background: var(--rs-wash);
+		border: 0;
+	}
+}
+
+.rs-theme {
+	position: relative;
+	display: grid;
+	place-items: center;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	border: 0;
+	border-radius: 999px;
+	background: var(--rs-chip);
+	color: var(--rs-fg);
+	cursor: pointer;
+	transition:
+		background-color 200ms var(--rs-ease),
+		transform 160ms var(--rs-ease);
+}
+.rs-theme:active {
+	transform: scale(0.97);
+}
+.rs-theme svg {
+	grid-area: 1 / 1;
+}
+/* moon shows in light (click for night), sun shows in dark */
+:root:not([data-theme='light']) .rs-moon {
+	display: none;
+}
+:root[data-theme='light'] .rs-sun {
+	display: none;
+}
+@media (hover: hover) and (pointer: fine) {
+	.rs-theme:hover {
+		background: var(--rs-wash);
+	}
+}
+
+.rs-apply {
+	display: inline-flex;
+	align-items: center;
+	height: 40px;
+	padding: 0 18px;
+	border-radius: 999px;
+	border: 1.5px solid var(--rs-white);
+	background: var(--rs-sun);
+	color: var(--rs-ink);
+	font: 700 15px/1 'Archivo', sans-serif;
+	text-decoration: none;
+	transition:
+		background-color 220ms var(--rs-ease),
+		color 220ms var(--rs-ease),
+		transform 160ms var(--rs-ease);
+}
+.rs-apply:active {
+	transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+	.rs-apply:hover {
+		background: var(--rs-btn-hover-bg);
+		color: var(--rs-btn-hover-fg);
+	}
+}
+@media (max-width: 26em) {
+	.rs-pill {
+		gap: 4px;
+		padding-inline-start: 12px;
+	}
+	.rs-name {
+		font-size: 15px;
+	}
+	.rs-actions {
+		gap: 4px;
+	}
+	.rs-apply {
+		padding: 0 12px;
+		font-size: 13.5px;
+		height: 34px;
+	}
+	.rs-search button[data-open-modal],
+	.rs-theme {
+		width: 34px;
+		height: 34px;
+	}
+}
+
+/* Starlight's round mobile menu button, aligned with the pill */
+starlight-menu-button button {
+	top: 22px;
+	inset-inline-end: 16px;
+	width: 36px;
+	height: 36px;
+	background-color: var(--rs-menu-bg);
+	color: var(--rs-menu-fg);
+	box-shadow: 0 6px 18px rgba(14, 23, 38, 0.2);
+	transition: transform 160ms var(--rs-ease);
+}
+starlight-menu-button button:active {
+	transform: scale(0.97);
+}
+:root[data-theme='light'] starlight-menu-button button,
+:root[data-theme='light'] starlight-menu-button [aria-expanded='true'] button {
+	background-color: var(--rs-menu-bg);
+	color: var(--rs-menu-fg);
+}
+
+/* ---------------------------------------------------------------------------
+   Cards: sidebar, article, table of contents
+   --------------------------------------------------------------------------- */
+.sidebar-pane {
+	/* mobile drawer */
+	inset-block: calc(var(--sl-nav-height) - 4px) 12px;
+	inset-inline: 12px;
+	width: auto;
+	border: 0;
+	border-radius: var(--rs-radius);
+	background: var(--rs-card);
+	box-shadow: var(--rs-shadow);
+}
+@media (min-width: 50em) {
+	.sidebar-pane {
+		inset-block: calc(var(--sl-nav-height) - 4px) 16px;
+		inset-inline: 16px auto;
+		width: calc(var(--sl-sidebar-width) - 32px);
+		border: 0;
+		background: var(--rs-card);
+	}
+}
+.sidebar-content {
+	padding-block-start: 1.1rem;
+	padding-inline: 0.9rem;
+}
+
+main {
+	margin: 0 12px 24px;
+	padding: 0;
+	border-radius: var(--rs-radius);
+	background: var(--rs-card);
+	box-shadow: var(--rs-shadow);
+	/* centre the column inside the card (Starlight right-aligns it next to the TOC) */
+	--sl-content-margin-inline: auto;
+}
+@media (min-width: 50em) {
+	main {
+		margin: 0 16px 32px 0;
+	}
+	:root:not([data-has-sidebar]) main {
+		margin-inline: 16px;
+	}
+}
+@media (min-width: 72em) {
+	:root[data-has-sidebar] main {
+		max-width: calc(var(--sl-content-width) + 4.5rem);
+		margin-inline: auto;
+	}
+}
+.content-panel {
+	padding: 1.5rem 1.25rem;
+}
+@media (min-width: 50em) {
+	.content-panel {
+		padding: 2rem 2.25rem;
+	}
+}
+.content-panel + .content-panel {
+	border-top: 1px solid var(--sl-color-hairline);
+}
+
+/* Right-hand table of contents as a card */
+.right-sidebar {
+	border: 0;
+}
+.right-sidebar-panel {
+	/* .right-sidebar is position:fixed at 100vw wide, so without this the card ran off
+	   the right edge of the screen; fit-content sizes it to Starlight's .sl-container. */
+	width: fit-content;
+	margin: 0.25rem 16px 0 16px;
+	padding: 1.1rem 1rem;
+	border-radius: var(--rs-radius);
+	background: var(--rs-card);
+	box-shadow: var(--rs-shadow);
+}
+.right-sidebar-panel h2 {
+	font: 500 11.5px/1.2 var(--rs-mono);
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: var(--sl-color-gray-3);
+	margin-bottom: 0.6rem;
+}
+.right-sidebar-panel a {
+	border-radius: 10px;
+	transition:
+		background-color 200ms var(--rs-ease),
+		color 200ms var(--rs-ease);
+}
+.right-sidebar-panel a[aria-current='true'] {
+	background: var(--rs-wash);
+	color: var(--sl-color-white);
+	font-weight: 600;
+}
+@media (hover: hover) and (pointer: fine) {
+	.right-sidebar-panel a:hover {
+		background: var(--rs-wash);
+	}
+}
+
+/* Mobile table of contents bar */
+mobile-starlight-toc nav {
+	inset-inline: 12px;
+	top: calc(var(--sl-nav-height) - 6px);
+	border: 0;
+	border-radius: 16px;
+	background: var(--rs-pill-bg-solid);
+	box-shadow: var(--rs-shadow);
+}
+@media (min-width: 50em) {
+	mobile-starlight-toc nav {
+		inset-inline: var(--sl-content-inline-start, 12px) 16px;
+	}
+}
+mobile-starlight-toc summary {
+	border-bottom: 0;
+	color: var(--sl-color-gray-2);
+}
+mobile-starlight-toc .toggle {
+	border-radius: 999px;
+	border-color: var(--rs-line);
+	background: var(--rs-card);
+}
+mobile-starlight-toc .dropdown {
+	border: 0;
+	border-radius: 16px;
+	margin-top: 6px;
+	background: var(--rs-card);
+}
+
+/* Sidebar items */
+.sidebar-content a {
+	border-radius: 12px;
+	transition:
+		background-color 200ms var(--rs-ease),
+		color 200ms var(--rs-ease);
+}
+.sidebar-content a[aria-current='page'],
+.sidebar-content a[aria-current='page']:hover,
+.sidebar-content a[aria-current='page']:focus {
+	background: var(--rs-wash);
+	color: var(--sl-color-white);
+	font-weight: 600;
+}
+@media (hover: hover) and (pointer: fine) {
+	.sidebar-content a:hover {
+		background: var(--rs-wash);
+		color: var(--sl-color-white);
+	}
+}
+.sidebar-content summary .large {
+	font: 500 11.5px/1.2 var(--rs-mono);
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: var(--sl-color-gray-3);
+}
+
+/* Nested cards (Card, LinkCard, pagination, asides, code frames) */
+.card,
+.sl-link-card,
+.pagination-links a {
+	background: var(--rs-card-inner);
+	border: 1px solid var(--rs-line);
+	border-radius: var(--rs-radius);
+	box-shadow: none;
+}
+.card {
+	padding: clamp(1.1rem, calc(0.4rem + 2.4vw), 1.9rem);
+}
+.card .icon {
+	border: 0;
+	border-radius: 12px;
+	padding: 0.35em;
+	background: var(--rs-wash);
+	color: var(--sl-color-text-accent);
+}
+.card .title,
+.sl-link-card .title {
+	font-family: var(--rs-display);
+	font-weight: 700;
+	letter-spacing: -0.015em;
+}
+.sl-link-card,
+.pagination-links a {
+	transition:
+		transform 260ms var(--rs-ease),
+		box-shadow 260ms var(--rs-ease),
+		border-color 200ms var(--rs-ease),
+		background-color 200ms var(--rs-ease);
+}
+.sl-link-card:hover,
+.pagination-links a:hover {
+	background: var(--rs-card-inner);
+	border-color: var(--rs-line);
+}
+@media (hover: hover) and (pointer: fine) {
+	.sl-link-card:hover,
+	.pagination-links a:hover {
+		transform: translateY(-3px);
+		border-color: var(--sl-color-accent);
+		box-shadow: var(--rs-shadow-hover);
+	}
+}
+.sl-link-card:active,
+.pagination-links a:active {
+	transform: scale(0.98);
+}
+.pagination-links a {
+	border-radius: 18px;
+}
+.pagination-links .link-title {
+	font-family: var(--rs-display);
+	font-weight: 700;
+	letter-spacing: -0.015em;
+}
+
+/* Asides */
+.starlight-aside {
+	border: 1.5px solid color-mix(in srgb, var(--sl-color-asides-border) 40%, transparent);
+	border-radius: 18px;
+	padding: 1.1rem 1.25rem;
+}
+.starlight-aside__title {
+	font-family: var(--rs-display);
+	letter-spacing: -0.01em;
+}
+
+/* Tables */
+.sl-markdown-content :is(th, td):not(:where(.not-content *)) {
+	padding: 0.65rem 1rem;
+	border-bottom-color: var(--rs-line);
+}
+.sl-markdown-content th:not(:where(.not-content *)) {
+	background: var(--rs-wash);
+	font: 500 12px/1.3 var(--rs-mono);
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}
+.sl-markdown-content th:first-child:not(:where(.not-content *)) {
+	border-start-start-radius: 12px;
+	border-end-start-radius: 12px;
+}
+.sl-markdown-content th:last-child:not(:where(.not-content *)) {
+	border-start-end-radius: 12px;
+	border-end-end-radius: 12px;
+}
+
+/* ---------------------------------------------------------------------------
+   Buttons (hero actions and any LinkButton)
+   --------------------------------------------------------------------------- */
+.sl-link-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	border: 1.5px solid transparent;
+	border-radius: 999px;
+	padding: 0.8rem 1.5rem;
+	font: 700 16px/1.2 'Archivo', sans-serif;
+	text-decoration: none;
+	transition:
+		background-color 220ms var(--rs-ease),
+		color 220ms var(--rs-ease),
+		border-color 220ms var(--rs-ease),
+		box-shadow 220ms var(--rs-ease),
+		transform 160ms var(--rs-ease);
+}
+.sl-link-button:active {
+	transform: scale(0.97);
+}
+/* ⚠ The class is `.sl-link-button.primary` in this Starlight; `.action.primary` is the
+   older name, listed so an upgrade cannot quietly revert this. */
 .sl-link-button.primary,
 .action.primary {
-	background: #c4e4f5;
-	color: #000000;
-	border-color: #c4e4f5;
-	border-radius: 0;
+	background: var(--rs-sun);
+	color: var(--rs-ink);
+	border-color: var(--rs-white);
 }
-.sl-link-button.primary:hover,
-.action.primary:hover {
-	background: #87ceeb;
-	border-color: #87ceeb;
-	color: #000000;
+.sl-link-button.secondary,
+.sl-link-button.minimal {
+	background: var(--rs-ghost-bg);
+	color: var(--sl-color-white);
+	border-color: transparent;
+	box-shadow: inset 0 0 0 1.5px var(--rs-ghost-ring);
 }
-.sl-link-button {
-	border-radius: 0;
-}
-
-/* Site title (top-left wordmark): the accent, bold. */
-.site-title, a.site-title {
-	color: var(--sl-color-text-accent);
-	font-weight: 700;
-}
-
-/* Active sidebar item: a low-alpha accent wash with accent text, square like the site. */
-:root[data-theme='dark'] .sidebar-content a[aria-current='page'],
-:root[data-theme='dark'] nav a[aria-current='page'] {
-	background: rgba(135, 206, 235, 0.14);
-	color: #87ceeb;
-	border-radius: 0;
-	font-weight: 600;
+@media (hover: hover) and (pointer: fine) {
+	.sl-link-button.primary:hover,
+	.action.primary:hover {
+		background: var(--rs-btn-hover-bg);
+		color: var(--rs-btn-hover-fg);
+		border-color: var(--rs-white);
+	}
+	.sl-link-button.secondary:hover,
+	.sl-link-button.minimal:hover {
+		background: var(--rs-card);
+		color: var(--sl-color-white);
+		border-color: transparent;
+	}
 }
 
-/* Theme toggle sits at the far right of a very wide header and disappears into
-   the background. Give it a surface so it reads as a control. */
-starlight-theme-select label {
-	background: var(--sl-color-gray-6);
-	border: 1px solid var(--sl-color-gray-4);
-	border-radius: 0;
-	padding: 2px 6px;
-	color: var(--sl-color-gray-1);
+/* ---------------------------------------------------------------------------
+   Splash home (index.mdx): hero like the tools hero, cards like RE_Tools
+   --------------------------------------------------------------------------- */
+/* :root raises this above `:root:not([data-has-sidebar]) main` (margin 16px), which
+   otherwise left-aligned the splash column with an empty strip on the right. */
+:root[data-has-hero] main {
+	max-width: 68rem;
+	margin-inline: auto;
+	background: transparent;
+	box-shadow: none;
 }
-starlight-theme-select label:hover {
-	border-color: var(--sl-color-accent);
-	color: var(--sl-color-accent-high);
+[data-has-hero] .content-panel {
+	padding-inline: 1rem;
+}
+@media (min-width: 50em) {
+	[data-has-hero] .content-panel {
+		padding-inline: 1.5rem;
+	}
+}
+[data-has-hero] .hero {
+	grid-template-columns: 1fr;
+	padding-block: clamp(2rem, calc(1rem + 8vmin), 6rem) 2.5rem;
+}
+[data-has-hero] .hero .stack {
+	text-align: center;
+}
+[data-has-hero] .hero .copy {
+	align-items: center;
+}
+[data-has-hero] .hero .copy > * {
+	max-width: 44ch;
+}
+[data-has-hero] .hero .actions {
+	justify-content: center;
+	gap: 0.9rem;
+}
+/* orange marker under the title, pure CSS (the whole title: a word cannot be targeted) */
+[data-has-hero] .hero h1 {
+	font-family: var(--rs-display);
+	font-weight: 800;
+	/* 10vw keeps the 15-letter "Sankarasanjeevi" inside a 375px phone */
+	font-size: clamp(2.25rem, 10vw, 6rem);
+	line-height: 1;
+	letter-spacing: -0.035em;
+	text-wrap: balance;
+	max-width: none;
+	color: var(--sl-color-white);
+}
+/* No orange marker on this title: like the tools hero. The hero h1 is blockified by
+   its flex parent, so a marker became a full-width band once the title wrapped. */
+[data-has-hero] .hero .tagline {
+	font-size: clamp(1.05rem, calc(0.8rem + 1vw), 1.35rem);
+	color: var(--sl-color-white);
+	line-height: 1.5;
+}
+/* text that sits straight on the sky */
+[data-has-hero] .sl-markdown-content > :is(p, li) {
+	color: var(--sl-color-white);
+}
+[data-has-hero] .sl-markdown-content > p a,
+[data-has-hero] footer a {
+	color: var(--sl-color-white);
+	text-decoration-thickness: 1.5px;
+	text-underline-offset: 3px;
+}
+[data-has-hero] .sl-markdown-content > h2 {
+	margin-top: 2.5rem;
+}
+[data-has-hero] .card,
+[data-has-hero] .sl-link-card {
+	background: var(--rs-card);
+	box-shadow: var(--rs-shadow);
+}
+[data-has-hero] .sl-link-card:hover {
+	background: var(--rs-card);
 }
 
-/* Light theme — site /Retro/* light values */
-:root[data-theme='light'] {
-	--sl-color-accent-low: #d0e9f8;
-	--sl-color-accent: #1e88c4;
-	--sl-color-accent-high: #0d476e;
-	--sl-color-text-accent: #1a6e9e;
-
-	--sl-color-black: #f1f9fe;
-	--sl-color-gray-6: #e2f1fa;
-	--sl-color-gray-5: #d0e9f8;
-	--sl-color-gray-4: #badef3;
-	--sl-color-gray-3: #628ca8;
-	--sl-color-gray-2: #2a5f84;
-	--sl-color-gray-1: #0d476e;
-	--sl-color-white: #0a2d46;
-}
-:root[data-theme='light'] .sl-link-button.primary,
-:root[data-theme='light'] .action.primary {
-	background: #0d476e;
-	color: #ffffff;
-	border-color: #0d476e;
-}
-:root[data-theme='light'] .sl-link-button.primary:hover,
-:root[data-theme='light'] .action.primary:hover {
-	background: #1e88c4;
-	border-color: #1e88c4;
-	color: #ffffff;
-}
-:root[data-theme='light'] .sidebar-content a[aria-current='page'],
-:root[data-theme='light'] nav a[aria-current='page'] {
-	background: rgba(30, 136, 196, 0.12);
-	color: #0d476e;
-	border-radius: 0;
-	font-weight: 600;
+/* ---------------------------------------------------------------------------
+   Motion
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+	.sl-link-card:hover,
+	.pagination-links a:hover {
+		transform: none;
+	}
 }
